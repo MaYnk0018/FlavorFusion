@@ -1,4 +1,4 @@
-import User from '../models/user.model.js';
+import Test from '../models/user.model.js';
 import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
@@ -19,7 +19,7 @@ export const signup = async (req, res, next) => {
 
   const hashedPassword = bcryptjs.hashSync(password, 10);
 
-  const newUser = new User({
+  const newUser = new Test({
     username,
     email,
     password: hashedPassword,
@@ -33,6 +33,8 @@ export const signup = async (req, res, next) => {
   }
 };
 
+
+///SIGNIN 
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -41,7 +43,7 @@ export const signin = async (req, res, next) => {
   }
 
   try {
-    const validUser = await User.findOne({ email });
+    const validUser = await Test.findOne({ email });
     if (!validUser) {
       return next(errorHandler(404, 'User not found'));
     }
@@ -67,7 +69,7 @@ export const signin = async (req, res, next) => {
 export const google = async (req, res, next) => {
   const { email, name, googlePhotoUrl } = req.body;
   try {
-    const user = await User.findOne({ email });
+    const user = await Test.findOne({ email });
     if (user) {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
       const { password, ...rest } = user._doc;
@@ -82,7 +84,7 @@ export const google = async (req, res, next) => {
         Math.random().toString(36).slice(-8) +
         Math.random().toString(36).slice(-8);
       const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
-      const newUser = new User({
+      const newUser = new Test({
         username:
           name.toLowerCase().split(' ').join('') +
           Math.random().toString(9).slice(-4),
