@@ -14,7 +14,9 @@ import {
   deleteUserStart,
   deleteUserSuccess,
 } from "../redux/user/userSlice";
+import CreatePost from "../pages/CreatePost";
 import { app } from "../firebase";
+import { Link } from 'react-router-dom';
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
@@ -167,6 +169,17 @@ export default function DashProfile() {
           defaultValue={currentUser.email}
         />
         <TextInput type="password" id="password" placeholder="password" />
+        {currentUser.isAdmin && (
+          <Link to={'/create-post'}>
+            <Button
+              type='button'
+              gradientDuoTone='purpleToPink'
+              className='w-full'
+            >
+              Create a post
+            </Button>
+          </Link>
+        )}
         <Button type="submit" gradientDuoTone="purpleToBlue" outline>
           Update
         </Button>
